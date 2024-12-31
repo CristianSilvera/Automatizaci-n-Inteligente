@@ -1,0 +1,795 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Automatización Inteligente: Testing Funcional con IA.</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="16cc12ec-493c-8038-ba3e-e616284ce930" class="page sans"><header><h1 class="page-title">Automatización Inteligente: Testing Funcional con IA.</h1><p class="page-description"></p></header><div class="page-body"><p id="16cc12ec-493c-80e4-a42d-f1faab46e1bf" class="">Este documento es un extracto de la idea fundamental derivada del trabajo final presentado en la defensa del Diploma Gerencia de Calidad y Testing de Software 2024, como trabajo final. </p><p id="16dc12ec-493c-80b1-a55c-d875f9a57bd8" class="">El trabajo original del cual deriva este extracto es de la autoría de Valentina Prado, Cristian Silvera.</p><p id="16dc12ec-493c-80d6-a89b-e7b0b05c50d0" class="">Explica los conceptos, procesos y beneficios de integrar Inteligencia Artificial en el testing funcional mediante un sistema de automatización inteligente con capacidades de autocorrección.</p><p id="16cc12ec-493c-80f7-a661-ed679394713a" class="">Para facilitar su comprensión, realicé una simplificación del trabajo realizado. Esta abstracción pretende explicar el ciclo de vida de los tres componentes fundamentales que participan del sistema.</p><p id="16dc12ec-493c-809f-a72d-f81934443d85" class="">
+</p><hr id="16dc12ec-493c-807a-b933-e665fd351bb3"/><hr id="16dc12ec-493c-8072-9916-e8e04870639f"/><h3 id="16dc12ec-493c-8018-b38f-e966d8c2ace4" class=""><mark class="highlight-blue"><strong>Planteo del sistema.</strong></mark></h3><hr id="16dc12ec-493c-8083-b4cd-ccf6ce2b2241"/><p id="16dc12ec-493c-8003-bf8e-d1dfcefb61d4" class="">
+</p><p id="16cc12ec-493c-8024-aef1-f35b55be5248" class="">La idea fundamental de este trabajo es diseñar un <strong>sistema de automatización con capacidades de autocorrección (Self-Healing)</strong>, compuesto por tres elementos principales:</p><ol type="1" id="16cc12ec-493c-801f-a35b-db15fcb400c8" class="numbered-list" start="1"><li><strong>Test Automatizado</strong>:<ul id="16cc12ec-493c-80fd-b80e-c4826f9c9b52" class="bulleted-list"><li style="list-style-type:disc">Ejecuta pruebas sobre una aplicación (por ejemplo, una calculadora Android).</li></ul><ul id="16cc12ec-493c-80a5-ad03-f8e46d023616" class="bulleted-list"><li style="list-style-type:disc">Monitorea los logs de la aplicación en busca de errores que puedan ocurrir debido a cambios en los selectores o la interfaz.</li></ul></li></ol><ol type="1" id="16cc12ec-493c-8000-97ee-d870f47e1324" class="numbered-list" start="2"><li><strong>Modelo LLM-RAG (Language Model + Retrieval-Augmented Generation)</strong>:<ul id="16cc12ec-493c-80d5-a0e1-ca936dd566b4" class="bulleted-list"><li style="list-style-type:disc">Recibe consultas derivadas de los logs con detalles de errores.</li></ul><ul id="16cc12ec-493c-8083-b4e5-d7160c6ffde4" class="bulleted-list"><li style="list-style-type:disc">Procesa y analiza los datos mediante vectorización y un motor de consulta, generando una respuesta enriquecida, como selectores actualizados y funcionales.</li></ul></li></ol><ol type="1" id="16cc12ec-493c-8028-8d88-c758a223af70" class="numbered-list" start="3"><li><strong>Aplicación</strong>:<ul id="16cc12ec-493c-804c-afd7-eb2c4c6a959a" class="bulleted-list"><li style="list-style-type:disc">Actúa como el entorno bajo prueba.</li></ul><ul id="16cc12ec-493c-809e-973c-e12c3fe330b4" class="bulleted-list"><li style="list-style-type:disc">Proporciona los datos (logs) que desencadenan la retroalimentación en el sistema.</li></ul></li></ol><h3 id="16cc12ec-493c-8064-bf90-cf00362aa0a9" class=""><strong>Flujo del Sistema:</strong></h3><ol type="1" id="16cc12ec-493c-80e5-bb96-ecc25e36bb7b" class="numbered-list" start="1"><li>El Test Automatizado ejecuta un script y monitorea los logs de la aplicación.</li></ol><ol type="1" id="16cc12ec-493c-80c3-9401-c0ac3fc0f444" class="numbered-list" start="2"><li>Ante un error, el Test genera una consulta con los detalles del problema y la envía al Modelo LLM-RAG.</li></ol><ol type="1" id="16cc12ec-493c-807e-81d3-f4974319c650" class="numbered-list" start="3"><li>El Modelo procesa la consulta, busca en su base de datos vectorizada y devuelve una respuesta con información actualizada (nuevos selectores).</li></ol><ol type="1" id="16cc12ec-493c-80b3-bb8d-d9bc460b4ea4" class="numbered-list" start="4"><li>El Test aplica la información para corregir el error y re ejecutar la prueba (Self-Healing).</li></ol><ol type="1" id="16cc12ec-493c-80bb-ba67-ca48c0b03c59" class="numbered-list" start="5"><li>Si la corrección falla después de varios intentos, el sistema registra los detalles del error para una intervención manual.</li></ol><h3 id="16cc12ec-493c-8084-9a6e-e33dde36a8ab" class=""><strong>Propósito:</strong></h3><p id="16cc12ec-493c-80b9-9171-efd663d35fee" class="">El objetivo del sistema es reducir la dependencia de la intervención humana en la automatización de pruebas, permitiendo que las pruebas puedan adaptarse automáticamente a cambios en la aplicación, mejorando así la eficiencia y confiabilidad en el proceso de testing.</p><p id="16dc12ec-493c-8079-a8e8-cd0656bcb56d" class="">
+</p><hr id="16dc12ec-493c-805c-b233-e90364dfeaeb"/><h3 id="16cc12ec-493c-80c9-88bb-c5dcecab43ec" class=""><mark class="highlight-blue"><strong>Definiciones</strong></mark></h3><hr id="16dc12ec-493c-80c9-a93b-dc2a78f6fa72"/><h3 id="16cc12ec-493c-80c4-b0b5-dbc2c589c93a" class="">Definición de Self-Healing</h3><p id="16dc12ec-493c-80e5-99eb-c5e1418946ac" class=""><strong>Self-Healing</strong> en el contexto de automatización de pruebas se refiere a la capacidad de una prueba automatizada para recuperarse automáticamente de fallos temporales o intermitentes sin intervención manual. Esto incluye la capacidad de manejar situaciones donde los elementos de la interfaz de usuario (UI) pueden no estar disponibles inmediatamente debido a problemas de sincronización, carga o cambios en la estructura de la UI.</p><h3 id="16dc12ec-493c-80ae-aa38-f5f131002d19" class="">Características de un Test con Enfoque Self-Healing</h3><p id="16dc12ec-493c-80a1-89e6-d3a9e1d44ab1" class="">Para implementar un enfoque Self-Healing en tus pruebas automatizadas, estas deben incluir las siguientes características:</p><ol type="1" id="16dc12ec-493c-8059-a12b-c0181185aabc" class="numbered-list" start="1"><li><strong>Múltiples Estrategias de Localización</strong>:<ul id="f00e558f-647a-46b8-987e-63e0ec9a31a4" class="bulleted-list"><li style="list-style-type:disc">Utilizar varios selectores para localizar un elemento. Si un selector falla, intentar con otro.</li></ul><ul id="fda9877f-e94a-434c-87ac-b02faf6302e8" class="bulleted-list"><li style="list-style-type:disc">Ejemplo: Usar <code>accessibility id</code>, <code>resource id</code>, <code>xpath</code>, <code>css selector</code>, etc.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-80e5-b517-de7ff56d0a81" class="numbered-list" start="2"><li><strong>Reintentos Automáticos</strong>:<ul id="2036bd33-71b4-4b6d-bea1-c41b555c5ea5" class="bulleted-list"><li style="list-style-type:disc">Implementar lógica de reintento para intentar encontrar y interactuar con los elementos varias veces antes de fallar.</li></ul><ul id="abcb0f7c-76ac-49ab-a11a-d03be82c1325" class="bulleted-list"><li style="list-style-type:disc">Ejemplo: Reintentar hasta 3 veces con un intervalo de espera entre intentos.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-80b7-ac35-e1cdd7f473b8" class="numbered-list" start="3"><li><strong>Manejo de Excepciones</strong>:<ul id="40d5a6b9-3975-4079-8e71-e27d45b107bb" class="bulleted-list"><li style="list-style-type:disc">Capturar y manejar excepciones de manera que la prueba pueda continuar incluso si un paso falla temporalmente.</li></ul><ul id="2b9517ce-0f3a-42b8-8829-0ab255f02b2b" class="bulleted-list"><li style="list-style-type:disc">Ejemplo: Si un elemento no se encuentra, capturar la excepción y reintentar.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-809b-ba69-cfb28574b584" class="numbered-list" start="4"><li><strong>Condiciones de Espera Personalizadas</strong>:<ul id="3b1d91ef-8462-46b0-b4da-b295f67b31e7" class="bulleted-list"><li style="list-style-type:disc">Definir condiciones de espera personalizadas para manejar situaciones específicas de la aplicación.</li></ul><ul id="c284a84d-1e8c-4e3b-9660-38266a75d87d" class="bulleted-list"><li style="list-style-type:disc">Ejemplo: Esperar a que un elemento desaparezca antes de continuar.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-8024-b346-deca5b2f1405" class="numbered-list" start="5"><li><strong>Captura de Pantalla en Fallos</strong>:<ul id="e604da65-6c94-4ec8-873c-c8a816c7440c" class="bulleted-list"><li style="list-style-type:disc">Tomar capturas de pantalla en caso de fallos para facilitar el diagnóstico.</li></ul><ul id="4c7d2994-20a8-4b90-8cf1-7511c5cb0133" class="bulleted-list"><li style="list-style-type:disc">Ejemplo: Guardar una captura de pantalla cada vez que un paso falla.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-80d4-8a2d-c2b8715189ad" class="numbered-list" start="6"><li><strong>Logs Detallados</strong>:<ul id="7ca9bfd4-937c-4ac9-aedd-608a4fee1f83" class="bulleted-list"><li style="list-style-type:disc">Agregar logs detallados para entender mejor qué está sucediendo durante la ejecución de la prueba.</li></ul><ul id="c7563585-2e04-456a-bff9-06f4d460a9f5" class="bulleted-list"><li style="list-style-type:disc">Ejemplo: Loggear cada intento de reintento y cualquier excepción capturada.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-800e-ad79-d0b2de983186" class="numbered-list" start="7"><li><strong>Verificación del Estado de la Aplicación</strong>:<ul id="526dc98a-e19d-45ce-b45d-5eb49b5c9532" class="bulleted-list"><li style="list-style-type:disc">Verificar el estado de la aplicación antes de realizar una acción para asegurarse de que está en el estado esperado.</li></ul><ul id="258cd882-b7ba-4870-a6c8-a2ecf2dac478" class="bulleted-list"><li style="list-style-type:disc">Ejemplo: Verificar que ciertos elementos están visibles o que ciertos textos están presentes.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-80fd-abad-da9f66ed9b44" class="numbered-list" start="8"><li><strong>Uso de Variables de Entorno</strong>:<ul id="07323f62-e6de-4c3c-8057-53c60817ebb9" class="bulleted-list"><li style="list-style-type:disc">Utilizar variables de entorno para configurar parámetros como el número de reintentos y el tiempo de espera.</li></ul><ul id="00d98a4a-7272-430d-b9be-e9fb83fd1489" class="bulleted-list"><li style="list-style-type:disc">Ejemplo: Configurar el número de reintentos y el tiempo de espera a través de variables de entorno.</li></ul></li></ol><p id="16dc12ec-493c-8084-8de0-dbdec4f133a2" class="">
+</p><h3 id="16dc12ec-493c-80e2-ae58-f1e6c77917c0" class="">Definición de LLM-RAG</h3><ol type="1" id="16dc12ec-493c-80dd-8cba-f9732d9316ea" class="numbered-list" start="1"><li><strong>LLM</strong>:<ul id="fa78bfb1-c9f9-4b0e-9fdf-fbe530a94cb8" class="bulleted-list"><li style="list-style-type:disc"><strong>Large Language Model</strong>: Se refiere a modelos de lenguaje de gran tamaño que están diseñados para entender y generar texto en lenguaje natural. Estos modelos son entrenados con grandes cantidades de datos textuales y pueden realizar una variedad de tareas, como responder preguntas, traducir texto, resumir documentos y más.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-805c-9109-fa7177ac722f" class="numbered-list" start="2"><li><strong>RAG</strong>:<ul id="f3eb4b87-e4e8-49b0-8424-75d9cdcd1bb9" class="bulleted-list"><li style="list-style-type:disc"><strong>Retrieval-Augmented Generation</strong>: Es una técnica que combina la recuperación de información (retrieval) con la generación de texto. En este enfoque, un modelo de lenguaje utiliza información recuperada de una base de datos o un índice de documentos para mejorar la calidad y la precisión de las respuestas generadas. Esto es útil cuando se necesita información específica y actualizada que no está necesariamente incluida en el entrenamiento del modelo de lenguaje.</li></ul><p id="16dc12ec-493c-804b-b2aa-c19648411714" class="">
+</p><p id="16dc12ec-493c-806b-9e9e-dd8aa4c3e72c" class="">Diagrama de un RAG:</p><figure id="16dc12ec-493c-80eb-8379-d33488b216ad" class="image"><a href="test_llm-rag-sistem_3.drawio.png"><img style="width:679.9874877929688px" src="test_llm-rag-sistem_3.drawio.png"/></a></figure><h3 id="16dc12ec-493c-80be-9336-d6589fb83027" class=""><strong>1. RAG (Retrieval-Augmented Generation):</strong></h3><p id="16dc12ec-493c-8096-8a8a-ed7049dda723" class="">Este bloque se centra en <strong>buscar información relevante</strong> de un conjunto de datos masivo y contextualizarla antes de responder a la consulta.</p><ol type="1" id="16dc12ec-493c-8035-8ace-cf6158f743d8" class="numbered-list" start="1"><li><strong>Gigantic Dataset:</strong><ul id="16dc12ec-493c-80e6-a697-ed2dfecd2235" class="bulleted-list"><li style="list-style-type:disc">Es una colección masiva de datos, que puede estar formada por sitios web, wikis, libros u otras fuentes. Estos datos son procesados y transformados en representaciones útiles.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-801f-a285-c7e4e73434d2" class="numbered-list" start="2"><li><strong>Vectorized Data Chunks:</strong><ul id="16dc12ec-493c-80d3-b632-cc3876c45a96" class="bulleted-list"><li style="list-style-type:disc">Los datos originales se dividen en fragmentos pequeños y se convierten en vectores (la vectorización es el proceso de transformar datos textuales en una representación numérica que los algoritmos de machine learning pueden procesar.) mediante un modelo de machine learning. Esto permite que los datos puedan ser buscados y relacionados de manera eficiente basándose en similitudes.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-80cc-8db1-f08d82b102e0" class="numbered-list" start="3"><li><strong>Base LLM (Large Language Model):</strong><ul id="16dc12ec-493c-8056-b261-de3c50917a99" class="bulleted-list"><li style="list-style-type:disc">El modelo de lenguaje (LLM) sirve como la base para interpretar la consulta inicial del usuario. Genera una consulta enriquecida que combina contexto y relevancia.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-8024-b838-e72b4f973656" class="numbered-list" start="4"><li><strong>Query Engine:</strong><ul id="16dc12ec-493c-80a9-97a7-db556aa196b6" class="bulleted-list"><li style="list-style-type:disc">Esta componente busca en el <strong>conjunto de datos vectorizados</strong> usando la consulta generada por el LLM. Su objetivo es recuperar los fragmentos de datos más relevantes para la pregunta inicial.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-804e-8105-d6d32ed80c57" class="numbered-list" start="5"><li><strong>Retrieved Dataset:</strong><ul id="16dc12ec-493c-80d6-a7fe-f245c7a85110" class="bulleted-list"><li style="list-style-type:disc">Los documentos o datos relevantes recuperados se combinan y se proporcionan como contexto adicional para que el LLM pueda generar una respuesta más precisa.</li></ul></li></ol><hr id="16dc12ec-493c-80ee-a27b-f66fb8a07741"/><h3 id="16dc12ec-493c-80ee-87a5-eaf0f8bccc2d" class=""><strong>2. ACTION:</strong></h3><p id="16dc12ec-493c-80a7-bb68-cfb518df2cf2" class="">Esta parte del modelo se centra en <strong>actuar sobre la información generada</strong> para ejecutar tareas concretas.</p><ol type="1" id="16dc12ec-493c-801b-85a0-f2ad712c69c7" class="numbered-list" start="1"><li><strong>Response (Respuesta):</strong><ul id="16dc12ec-493c-80e6-b7a1-ff90bf229399" class="bulleted-list"><li style="list-style-type:disc">El LLM utiliza el contexto proporcionado por los documentos recuperados para generar una respuesta precisa o un plan de acción.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-80c1-b806-c952234eb323" class="numbered-list" start="2"><li><strong>Task Execution:</strong><ul id="16dc12ec-493c-8034-9057-dc9cb43be026" class="bulleted-list"><li style="list-style-type:disc">En esta etapa, la respuesta del modelo no solo es textual, sino que puede incluir la ejecución de tareas específicas (por ejemplo, invocar APIs, realizar cálculos, ejecutar scripts, etc.).</li></ul></li></ol><ol type="1" id="16dc12ec-493c-800f-a5b2-cbef7573beb0" class="numbered-list" start="3"><li><strong>Feedback:</strong><ul id="16dc12ec-493c-808d-82ae-f7a636353c15" class="bulleted-list"><li style="list-style-type:disc">Se genera un ciclo de retroalimentación en el que los resultados obtenidos de la ejecución se evalúan y, si es necesario, se ajusta la respuesta inicial para mejorar el resultado.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-8003-9820-c30d9b4d410d" class="numbered-list" start="4"><li><strong>Output:</strong><ul id="16dc12ec-493c-8029-8ce1-cdf4344b8b93" class="bulleted-list"><li style="list-style-type:disc">Finalmente, se entrega un <strong>resultado validado y optimizado</strong> como salida final para el usuario.</li></ul></li></ol><hr id="16dc12ec-493c-804f-93ad-f16ea0ca82c9"/><h3 id="16dc12ec-493c-80a0-8682-e6714a91ebc2" class=""><strong>Propósito y Ventajas del Modelo</strong></h3><ul id="16dc12ec-493c-800d-a6b2-f5c2f26ef371" class="bulleted-list"><li style="list-style-type:disc"><strong>Combina búsqueda y generación:</strong> El modelo aprovecha datos externos masivos para aumentar la precisión y contextualización de las respuestas generadas por el LLM.</li></ul><ul id="16dc12ec-493c-8043-9348-d9c4e1000818" class="bulleted-list"><li style="list-style-type:disc"><strong>Capacidad de ejecución:</strong> No se limita a responder preguntas, sino que también ejecuta tareas con base en las instrucciones.</li></ul><ul id="16dc12ec-493c-80d5-8d74-fc9616acce00" class="bulleted-list"><li style="list-style-type:disc"><strong>Adaptabilidad:</strong> Aprende y mejora continuamente gracias al ciclo de retroalimentación.</li></ul><p id="16dc12ec-493c-8075-b771-fb1a30313dca" class="">
+</p></li></ol><hr id="16dc12ec-493c-802c-9db7-cb7eb050e1df"/><h3 id="16dc12ec-493c-8079-b995-cd636fbebfc0" class=""><mark class="highlight-blue">Ejemplo detallado de la integración.</mark></h3><hr id="16dc12ec-493c-80f7-bf47-d53112e7b11c"/><p id="16dc12ec-493c-8005-a3fd-db5a55177e5e" class="">En el siguiente diagrama se integra el modelo RAG que contiene el script o sistema de actualización y sincronización de los insumos de recuperación del test (para este ejemplo los selectores de los componente de una aplicación Android) con la ACTION que maneja las tareas que monitorean y disparan la consulta en caso de error que acciona el script de actualización de la información que utiliza el modelo para dar una respuesta que se comunica con el test y proporciona los componentes necesarios para su auto-reparación.</p><p id="16dc12ec-493c-80ce-94d8-df628508293d" class=""> </p><h3 id="926b8ef7-2ab6-4d9f-929e-e7662c76646e" class=""><mark class="highlight-blue"><strong>Diagrama integración:</strong></mark></h3><figure id="16dc12ec-493c-8072-a6ce-e41e0cbfbbaa" class="image"><a href="test_llm-rag-sistem_4.drawio.png"><img style="width:707.9750366210938px" src="test_llm-rag-sistem_4.drawio.png"/></a></figure><p id="16dc12ec-493c-80de-b5cf-eeb7df8bbfd1" class="">
+</p><h3 id="16dc12ec-493c-800c-b05d-c898fb938489" class=""><mark class="highlight-blue"><strong>Explicación de la ubicación de los componentes en el diagrama: </strong></mark></h3><ol type="1" id="16dc12ec-493c-8087-aaff-f2501dc51628" class="numbered-list" start="1"><li><strong>Aplicación</strong>:<ul id="16dc12ec-493c-8023-baa1-f422f00b51d3" class="bulleted-list"><li style="list-style-type:disc">Colocada antes de &quot;Task Execution&quot; en la sección <strong>ACTION</strong>.</li></ul><ul id="16dc12ec-493c-808a-a558-f6fe3eb55b38" class="bulleted-list"><li style="list-style-type:disc">Rol: Es el sistema bajo prueba (por ejemplo, una calculadora Android) que genera logs (retroalimentación) para el modelo y ejecuta las acciones probadas por el test automatizado.</li></ul><ul id="16dc12ec-493c-80fa-b477-f6421461bbac" class="bulleted-list"><li style="list-style-type:disc">Conexiones:<ul id="16dc12ec-493c-8083-86a5-fe309a55495c" class="bulleted-list"><li style="list-style-type:circle">Recibe comandos desde &quot;Task Execution&quot;.</li></ul><ul id="16dc12ec-493c-8085-9242-c643f4da539a" class="bulleted-list"><li style="list-style-type:circle">Genera logs que se usan para identificar problemas mediante el &quot;Base LLM&quot;.</li></ul></li></ul></li></ol><ol type="1" id="16dc12ec-493c-808a-82ae-f00453568859" class="numbered-list" start="2"><li><strong>Test Automatizado</strong>:<ul id="16dc12ec-493c-8032-9c88-d22d161ee8f7" class="bulleted-list"><li style="list-style-type:disc">Posicionado entre &quot;Task Execution&quot; y la Aplicación.</li></ul><ul id="16dc12ec-493c-804e-a9c5-cb3730447f57" class="bulleted-list"><li style="list-style-type:disc">Rol: Ejecuta pruebas sobre la aplicación, monitorea logs en busca de errores y comunica las consultas al modelo RAG.</li></ul><ul id="16dc12ec-493c-80a0-8024-e1c75598534f" class="bulleted-list"><li style="list-style-type:disc">Conexiones:<ul id="16dc12ec-493c-8053-a67c-d2a2ab1d64dc" class="bulleted-list"><li style="list-style-type:circle">Obtiene comandos de &quot;Task Execution&quot;.</li></ul><ul id="16dc12ec-493c-80c1-9bb8-e16df6bfb7fa" class="bulleted-list"><li style="list-style-type:circle">En caso de errores, envía los logs al &quot;Query Engine&quot; del RAG para análisis.</li></ul></li></ul></li></ol><ol type="1" id="16dc12ec-493c-809f-8751-c77ca393fb9a" class="numbered-list" start="3"><li><strong>Script de Mapeo de Selectores</strong>:<ul id="16dc12ec-493c-8008-9a11-e4749435c383" class="bulleted-list"><li style="list-style-type:disc">Localizado dentro de la &quot;Query Engine&quot; del modelo RAG.</li></ul><ul id="16dc12ec-493c-80c5-8cd4-e3634209ec48" class="bulleted-list"><li style="list-style-type:disc">Rol: Procesa las consultas y genera una lista de selectores actualizados que corrigen problemas detectados en la aplicación.</li></ul><ul id="16dc12ec-493c-8044-a906-c866e4b8cebb" class="bulleted-list"><li style="list-style-type:disc">Conexiones:<ul id="16dc12ec-493c-80b6-b28a-ef9147f1b64f" class="bulleted-list"><li style="list-style-type:circle">Toma la entrada del &quot;Base LLM&quot;.</li></ul><ul id="16dc12ec-493c-80e0-9298-d249dd52a760" class="bulleted-list"><li style="list-style-type:circle">Entrega la salida (nuevos selectores) al &quot;Task Execution&quot;.</li></ul></li></ul></li></ol><h3 id="16dc12ec-493c-80b2-8930-f450a766dccc" class="">Flujo Integrado:</h3><ol type="1" id="16dc12ec-493c-8023-bd58-dad4d45e0d8e" class="numbered-list" start="1"><li>El <strong>Test Automatizado</strong> ejecuta scripts sobre la <strong>Aplicación</strong> y monitorea los logs.</li></ol><ol type="1" id="16dc12ec-493c-8067-b480-d4d07b370cb0" class="numbered-list" start="2"><li>Si se detecta un error, los logs se convierten en una consulta para el <strong>Base LLM</strong>.</li></ol><ol type="1" id="16dc12ec-493c-8016-b5c5-c8de214a454d" class="numbered-list" start="3"><li>El <strong>Query Engine</strong> procesa la consulta y ejecuta el <strong>Script de Mapeo de Selectores</strong> para generar una lista de selectores actualizados.</li></ol><ol type="1" id="16dc12ec-493c-80c8-a495-f0ac9bd76d17" class="numbered-list" start="4"><li>Los nuevos selectores se envían al <strong>Task Execution</strong>, que los utiliza para ajustar el Test Automatizado.</li></ol><ol type="1" id="16dc12ec-493c-80df-8036-d5220138c2ca" class="numbered-list" start="5"><li>El Test Automatizado re ejecuta las pruebas con los selectores actualizados.</li></ol><ol type="1" id="16dc12ec-493c-80a1-9a1f-c2f63566b258" class="numbered-list" start="6"><li>Si las pruebas son exitosas, no se realizan nuevas consultas al modelo. Si persisten los errores, el flujo se repite hasta un límite predefinido, tras el cual se registra el problema para intervención manual.</li></ol><hr id="8d245889-733f-438f-b58a-fd97b8afb21f"/><h3 id="16dc12ec-493c-8029-9fde-d4eed609a410" class=""><mark class="highlight-blue">Diagrama UML.</mark></h3><hr id="16dc12ec-493c-80d3-b603-e65844e20b97"/><h3 id="16dc12ec-493c-8083-be02-ddf87bfdfbd7" class="">Componentes:</h3><ol type="1" id="16dc12ec-493c-80e9-8e68-e15ea5f29361" class="numbered-list" start="1"><li><strong>Test Automatizado</strong> (Actor principal que inicia el flujo).</li></ol><ol type="1" id="16dc12ec-493c-801e-8a5d-e85971628428" class="numbered-list" start="2"><li><strong>Aplicación (App Android)</strong> (Elemento bajo prueba).</li></ol><ol type="1" id="16dc12ec-493c-80c9-97b3-c18c9e86bb6f" class="numbered-list" start="3"><li><strong>Modelo LLM-RAG</strong> (Procesador de consultas y generador de respuestas).</li></ol><ol type="1" id="16dc12ec-493c-8092-a7ff-ca1753423001" class="numbered-list" start="4"><li><strong>Base de Datos Vectorizada</strong> (Almacenamiento de información para el modelo).</li></ol><h3 id="16dc12ec-493c-808e-95e8-f9aef57e7af5" class="">Flujo (Secuencia Simplificada):</h3><ol type="1" id="16dc12ec-493c-8076-809a-cc32eeecb57d" class="numbered-list" start="1"><li><strong>Inicio del Test Automatizado</strong>:<ul id="16dc12ec-493c-80ec-8fad-da6a471d1572" class="bulleted-list"><li style="list-style-type:disc">Ejecuta scripts para validar funcionalidades de la aplicación.</li></ul><ul id="16dc12ec-493c-807e-873f-c7b927f48eee" class="bulleted-list"><li style="list-style-type:disc">Monitorea logs en busca de errores.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-8000-aa98-c400fd18892d" class="numbered-list" start="2"><li><strong>Error Detectado</strong>:<ul id="16dc12ec-493c-807d-8eea-e53afcdafef7" class="bulleted-list"><li style="list-style-type:disc">El test genera una consulta detallada con los logs del error.</li></ul><ul id="16dc12ec-493c-80b8-964c-ca2ed4e023d2" class="bulleted-list"><li style="list-style-type:disc">Envía la consulta al <strong>Modelo LLM-RAG</strong>.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-8091-8148-e14edeacb413" class="numbered-list" start="3"><li><strong>Modelo LLM-RAG Procesa la Consulta</strong>:<ul id="16dc12ec-493c-80d2-ba24-c6955487c4e3" class="bulleted-list"><li style="list-style-type:disc">Accede a la Base de Datos Vectorizada.</li></ul><ul id="16dc12ec-493c-80af-8443-c08babe5bc94" class="bulleted-list"><li style="list-style-type:disc">Enriquecer la consulta con contexto adicional usando la Base LLM.</li></ul><ul id="16dc12ec-493c-809b-b64a-f5b21d0ffcb5" class="bulleted-list"><li style="list-style-type:disc">Genera una respuesta con los selectores corregidos o sugeridos.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-8009-83ad-cabf26d94313" class="numbered-list" start="4"><li><strong>Respuesta al Test</strong>:<ul id="16dc12ec-493c-806c-b07c-e512e2cc4f0d" class="bulleted-list"><li style="list-style-type:disc">El modelo devuelve la respuesta al test.</li></ul><ul id="16dc12ec-493c-80bf-835d-e9d796eba927" class="bulleted-list"><li style="list-style-type:disc">El test aplica el método de Self-Healing y se vuelve a ejecutar.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-8093-ac0c-c51995c3af71" class="numbered-list" start="5"><li><strong>Monitoreo de Resultados</strong>:<ul id="16dc12ec-493c-80bc-bd28-d77899fe532b" class="bulleted-list"><li style="list-style-type:disc">Si el test es exitoso, finaliza el proceso.</li></ul><ul id="16dc12ec-493c-8038-8a98-e0d25ce9117a" class="bulleted-list"><li style="list-style-type:disc">Si falla, el ciclo se repite (máximo X intentos).</li></ul><ul id="16dc12ec-493c-8091-8876-d5a5efc7d904" class="bulleted-list"><li style="list-style-type:disc">Si no se resuelve, se guarda un registro para el debugging manual.</li></ul></li></ol><p id="16dc12ec-493c-806f-9d9d-ff3f67800d62" class="">
+</p><p id="16dc12ec-493c-80e4-88cc-d67d995b429d" class="">
+</p><p id="16dc12ec-493c-8077-a6b9-dab478208c60" class="">Diagrama UML en texto PlantUML.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a971877a-f1d9-4569-9339-60d8c9a3eff9" class="code"><code class="language-JavaScript">@startuml
+actor &quot;Test Automatizado&quot; as Tester
+participant &quot;Aplicación (App Android)&quot; as App
+participant &quot;Modelo LLM-RAG&quot; as Model
+participant &quot;Base de Datos Vectorizada&quot; as DB
+
+Tester -&gt; App: Ejecuta scripts
+App --&gt; Tester: Logs (Errores o Exitosos)
+
+alt Error Detectado
+    Tester -&gt; Model: Enviar consulta detallada (Logs del error)
+    Model -&gt; DB: Consultar datos relevantes
+    DB --&gt; Model: Respuesta con datos enriquecidos
+    Model --&gt; Tester: Respuesta con selectores actualizados
+    Tester -&gt; App: Aplicar Self-Healing y volver a ejecutar
+end
+
+alt Test Exitoso
+    Tester -&gt; Tester: Finaliza el proceso
+end
+
+alt Test Falla tras X intentos
+    Tester -&gt; Tester: Registrar detalles para debugging manual
+end
+@enduml
+</code></pre><p id="ca27029a-c208-4c94-ad8b-c174b6f8d304" class="">
+</p><p id="ddbb34b4-fd2a-4aa9-a05b-60622a950eca" class="">
+</p><p id="52634dc3-9335-4c43-ab16-a032a210deca" class="">
+</p><figure id="7bb9aa70-d905-4245-8b74-e3d9a8a2f032" class="image"><a href="https://kroki.io/plantuml/svg/eNplUjty2zAQ7XGKHVVSoQuo8JgK5biQGtuTcbsBNhxkIIDeBTVOrpUj-GJZLJmx5bBgAby377O4lYpcp3Ny6GthWD2RVOimWs5Y428MZQUo0E6J3ajY6OOIucKqG1P06OPbnwzrbhyhy4FLDBtj6ME1_FQCpQLH42n70H01jB1do_YoBIGgx1oEvlEz1WygEfq9c7MV2N40iR0cfpKfKoJ4jmMV14xs9XKG7eBYBoH1gbkwCRQ4vEadXGTjHKYKdgE9VVXSsA70e1cwg6qRLxEZfMkyJdUKVDElNQVrG68goDZoY3xjNXq_38GXhcQQLBJTootGJTFsvze3i9ADyTipOjathUCZ48tEPoYiH8d_yHhNE1VotWlc3emEydYon6JZefMKGR4p_djek0LzAL_gUtJFUQg0l8uOcpj7suexdPhp4j83dzGbJqjLkYsnRV7z71p7UFk3-gxRu8j1P3_v2YYoCuWldU2lD6bt4Ps0DM3vGbOGNIlb_elb_gvxEvT5"><img style="width:720px" src="https://kroki.io/plantuml/svg/eNplUjty2zAQ7XGKHVVSoQuo8JgK5biQGtuTcbsBNhxkIIDeBTVOrpUj-GJZLJmx5bBgAby377O4lYpcp3Ny6GthWD2RVOimWs5Y428MZQUo0E6J3ajY6OOIucKqG1P06OPbnwzrbhyhy4FLDBtj6ME1_FQCpQLH42n70H01jB1do_YoBIGgx1oEvlEz1WygEfq9c7MV2N40iR0cfpKfKoJ4jmMV14xs9XKG7eBYBoH1gbkwCRQ4vEadXGTjHKYKdgE9VVXSsA70e1cwg6qRLxEZfMkyJdUKVDElNQVrG68goDZoY3xjNXq_38GXhcQQLBJTootGJTFsvze3i9ADyTipOjathUCZ48tEPoYiH8d_yHhNE1VotWlc3emEydYon6JZefMKGR4p_djek0LzAL_gUtJFUQg0l8uOcpj7suexdPhp4j83dzGbJqjLkYsnRV7z71p7UFk3-gxRu8j1P3_v2YYoCuWldU2lD6bt4Ps0DM3vGbOGNIlb_elb_gvxEvT5"/></a></figure><p id="4cc1d87c-2df4-4d95-b047-a5b637bd07da" class="">
+</p><hr id="acb51159-b9b5-40ff-aa96-8d36a7f68dbc"/><h3 id="16dc12ec-493c-809f-b794-e058bb8753ca" class=""><mark class="highlight-blue">Resumen de la interacción.</mark></h3><hr id="16dc12ec-493c-80f8-8bb1-fd3f4a92a365"/><p id="16dc12ec-493c-806d-aa50-e99644784b6c" class="">Con base en la idea planteada, he diseñado un esquema conceptual para integrar un flujo con <strong>Self-Healing Testing</strong> basado en un modelo <strong>LLM-RAG</strong>. Este flujo conecta tres componentes principales: el <strong>test automatizado</strong>, la <strong>aplicación (app)</strong>, y el <strong>modelo LLM-RAG</strong>. El proceso incluye detección de errores, consultas automatizadas al modelo y auto-corrección mediante sincronización de selectores.</p><h3 id="16dc12ec-493c-808e-a73d-fd55cf51590e" class=""><strong>Esquema del Sistema.</strong></h3><h3 id="16dc12ec-493c-807e-8fdb-d7db96514ac0" class=""><strong>Componentes Principales:</strong></h3><ol type="1" id="16dc12ec-493c-806c-967d-dc2250fbdee4" class="numbered-list" start="1"><li><strong>Test Automatizado (Automation Test):</strong><ul id="16dc12ec-493c-8057-a57d-e03fb12bc499" class="bulleted-list"><li style="list-style-type:disc">Ejecuta scripts para validar la funcionalidad de la aplicación.</li></ul><ul id="16dc12ec-493c-8080-9fc5-e12dca9095ea" class="bulleted-list"><li style="list-style-type:disc">Monitorea los <strong>logs</strong> en tiempo real.</li></ul><ul id="16dc12ec-493c-8090-a170-dca65ce9343a" class="bulleted-list"><li style="list-style-type:disc">Dispara una consulta al modelo LLM-RAG en caso de encontrar un error.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-80e8-abd1-e104b59c1c65" class="numbered-list" start="2"><li><strong>Aplicación (App Android, ejemplo Calculadora):</strong><ul id="16dc12ec-493c-806f-8c01-f47b455abf2d" class="bulleted-list"><li style="list-style-type:disc">La aplicación bajo prueba, que contiene los selectores dinámicos que pueden romperse durante los cambios en el sistema.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-803d-b2d8-e437a38e9d12" class="numbered-list" start="3"><li><strong>Modelo LLM-RAG (Adaptado):</strong><ul id="16dc12ec-493c-8095-acff-f702d55fd953" class="bulleted-list"><li style="list-style-type:disc">Realiza procesamiento basado en consultas enriquecidas.</li></ul><ul id="16dc12ec-493c-80dd-9430-f179c554cf89" class="bulleted-list"><li style="list-style-type:disc">Genera selectores actualizados y ordenados por funcionalidad.</li></ul><ul id="16dc12ec-493c-80a2-b34f-f797e3a3c5ad" class="bulleted-list"><li style="list-style-type:disc">Integra un motor de búsqueda en datos vectorizados (Query Engine).</li></ul><ul id="16dc12ec-493c-8025-aaed-f3259c86b1ef" class="bulleted-list"><li style="list-style-type:disc">Devuelve una respuesta al test automatizado para ejecutar el <strong>self-healing</strong>.</li></ul></li></ol><ol type="1" id="16dc12ec-493c-803b-9bd4-d99ba9f7005f" class="numbered-list" start="4"><li><strong>Script de actualización y sincronización de componentes:</strong><ul id="16dc12ec-493c-80e2-93d1-d014916075d0" class="bulleted-list"><li style="list-style-type:disc">Realiza un mapeo de los componentes afectados, según la información de los logs (el error es la consulta que dispara la acción de actualización y sincronismo).</li></ul><ul id="18a3ba06-d786-4353-a4ae-5b70b2d0b71d" class="bulleted-list"><li style="list-style-type:disc">Almacena la información mapeada en el modelo para que sea procesada y preparada para su consulta.</li></ul></li></ol><hr id="16dc12ec-493c-801d-b4af-d66278f85a56"/><h3 id="16dc12ec-493c-8089-af53-f8c3d86c1339" class=""><mark class="highlight-blue"><strong>Flujo Detallado:</strong></mark></h3><h3 id="16dc12ec-493c-80c2-8297-d6f6bfbf9be0" class=""><strong>1. Ejecución Inicial del Test Automatizado:</strong></h3><ul id="16dc12ec-493c-8062-a072-c3c143ea2acd" class="bulleted-list"><li style="list-style-type:disc">El test automatizado interactúa con la aplicación utilizando selectores conocidos.</li></ul><ul id="16dc12ec-493c-802e-8422-e30d711c8bd4" class="bulleted-list"><li style="list-style-type:disc">Los <strong>logs del test</strong> son monitoreados para detectar errores.</li></ul><h3 id="16dc12ec-493c-805a-8952-f3e921406a7d" class=""><strong>2. Detección de Error y Disparo de Consulta:</strong></h3><ul id="16dc12ec-493c-802c-a84a-f1f4f863590a" class="bulleted-list"><li style="list-style-type:disc">Si el test falla debido a un problema con los selectores (por ejemplo, selector ausente o incorrecto):<ul id="16dc12ec-493c-8002-ba0d-e1b9862f0047" class="bulleted-list"><li style="list-style-type:circle">Los logs son analizados automáticamente.</li></ul><ul id="16dc12ec-493c-80f8-8abb-c954f96fa6eb" class="bulleted-list"><li style="list-style-type:circle">Se genera una <strong>consulta estructurada</strong> con el detalle del error (ej., tipo de error, selector roto, contexto funcional).</li></ul><ul id="16dc12ec-493c-809b-b4d6-c35c413b1583" class="bulleted-list"><li style="list-style-type:circle">Se da la orden para el mapeo de la aplicación, actualizando y sincronizando la información en el modelo.</li></ul></li></ul><h3 id="16dc12ec-493c-8079-99dd-e027b8504dbe" class=""><strong>3. Envío de Consulta al Modelo LLM-RAG:</strong></h3><ul id="16dc12ec-493c-803f-b20c-cdc732e91751" class="bulleted-list"><li style="list-style-type:disc">La consulta es enviada al <strong>modelo LLM-RAG</strong>, que sigue estos pasos:<ul id="16dc12ec-493c-80fe-90f8-c751beefe707" class="bulleted-list"><li style="list-style-type:circle"><strong>Base de Datos Vectorizada:</strong> Los datos sobre la aplicación y sus selectores son almacenados como chunks vectorizados para búsquedas eficientes(esto es posible mediante el script de actualización y sincronía que envía datos).</li></ul><ul id="16dc12ec-493c-80cc-8534-f9b0ceb0e903" class="bulleted-list"><li style="list-style-type:circle"><strong>Base LLM:</strong> Procesa la consulta y genera una versión enriquecida con contexto adicional.</li></ul><ul id="16dc12ec-493c-80df-a9ef-f72e8138186f" class="bulleted-list"><li style="list-style-type:circle"><strong>Query Engine:</strong> Busca en los datos vectorizados los selectores relevantes y actualizados.</li></ul><ul id="16dc12ec-493c-80ec-b737-fce8df9b20f6" class="bulleted-list"><li style="list-style-type:circle"><strong>Respuesta Generada:</strong> Devuelve una lista priorizada de selectores corregidos o alternativos basados en la funcionalidad (en el anexo, se detalla como estos datos son recorridos por una estructura de control).</li></ul></li></ul><h3 id="16dc12ec-493c-80e3-ad1a-d8d9a454b2ae" class=""><strong>4. Self-Healing del Test:</strong></h3><ul id="16dc12ec-493c-80de-9ebf-d3b111d8c062" class="bulleted-list"><li style="list-style-type:disc">El test automatizado recibe la respuesta del modelo mientras está en ejecución debido a las técnicas de <strong>self-healing, que </strong>actualizan los selectores dinámicamente.</li></ul><ul id="16dc12ec-493c-8066-895c-efbfb9b2e2b1" class="bulleted-list"><li style="list-style-type:disc">El test se reintenta recuperar automáticamente con los nuevos selectores.</li></ul><h3 id="16dc12ec-493c-8084-b234-e01b27b8fa05" class=""><strong>5. Monitoreo de Logs (Ciclo de Retroalimentación):</strong></h3><ul id="16dc12ec-493c-80ca-93e5-e00142b7a63a" class="bulleted-list"><li style="list-style-type:disc">Si el test es exitoso:<ul id="16dc12ec-493c-808c-aae9-f842e52667e8" class="bulleted-list"><li style="list-style-type:circle">El flujo se detiene y la ejecución continúa normalmente.</li></ul><ul id="16dc12ec-493c-8092-99b9-d383e215a08e" class="bulleted-list"><li style="list-style-type:circle">Almacenando las métricas en el histórico de ejecuciones para Feedback del modelo (se genera un ciclo de retroalimentación en el que los resultados obtenidos de la ejecución se evalúan y, si es necesario, se ajusta la respuesta inicial para mejorar el resultado.)</li></ul></li></ul><ul id="16dc12ec-493c-8002-8f0c-d31e780d1c48" class="bulleted-list"><li style="list-style-type:disc">Si falla nuevamente:<ul id="16dc12ec-493c-809f-b4f2-ddd114280c42" class="bulleted-list"><li style="list-style-type:circle">Se genera una nueva consulta al modelo, intentando un máximo de <strong>X intentos</strong>.</li></ul><ul id="16dc12ec-493c-807c-93d5-ef30981eff88" class="bulleted-list"><li style="list-style-type:circle">Si no se resuelve tras múltiples intentos:, los detalles del error se almacenan para facilitar el <strong>debugging manual.</strong></li></ul><ul id="16dc12ec-493c-80b7-b239-e5415e65cd98" class="bulleted-list"><li style="list-style-type:circle">Feedback del modelo.</li></ul></li></ul><p id="a1fdda96-a24c-4b16-86be-f2a2a8868d17" class="">
+</p><hr id="a0572553-a6d1-4e8d-b53e-138723f78866"/><p id="16dc12ec-493c-8081-a846-e4af3305a06a" class=""><mark class="highlight-blue"><strong>ANEXO.</strong></mark></p><hr id="16dc12ec-493c-8047-b880-c69f2d207ad2"/><h3 id="16dc12ec-493c-804b-a4f6-c41dc7bdfdc4" class=""><mark class="highlight-blue">Ejemplo de Implementación de Self-Healing:</mark></h3><p id="16dc12ec-493c-80d2-b9fc-d7d60d2aad7e" class="">El siguiente código corresponde a la automatización móvil, de la Calculadora en el sistema operativo Android. Donde se implementa Self-Healing de manera efectiva. </p><p id="16dc12ec-493c-800a-b0c5-e0d0f1f32994" class="">
+</p><p id="16dc12ec-493c-8097-aec3-d330672d856b" class="">Link a repositorio: </p><figure id="16dc12ec-493c-80da-94cd-fbdc204ad875"><div class="source">https://github.com/CristianSilvera/Self-Healing-Wdio</div></figure><p id="16dc12ec-493c-8064-a90b-d9d6703cf7af" class="">
+</p><p id="16dc12ec-493c-809f-a5c1-e9c40466daf6" class="">Aquí hay un análisis detallado de cómo lo realizamos:</p><h3 id="16dc12ec-493c-806e-9c37-d4cccc3472e6" class="">1. Múltiples Estrategias de Localización</h3><p id="16dc12ec-493c-802a-b80c-dd35da962943" class="">El método <code>getElementWithBackupSelectors</code> intenta localizar un elemento utilizando múltiples selectores. Si un selector falla, intenta con el siguiente. Esto es una forma de Self-Healing porque permite que la prueba continúe incluso si el primer selector no funciona.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="16dc12ec-493c-80af-8e13-d0b6a76c1a12" class="code"><code class="language-TypeScript" style="white-space:pre-wrap;word-break:break-all">private async getElementWithBackupSelectors(selectors: string[]) {
+    let lastError: Error | null = null;
+    for (let selector of selectors) {
+        try {
+            const element = await $(selector); // Espera el elemento
+            if (await element.isDisplayed()) {
+                return element;
+            }
+        } catch (error) {
+            lastError = error; // Almacena el último error para reportarlo
+        }
+    }
+    // Si ninguno de los selectores funciona, lanzar el último error encontrado
+    if (lastError) throw lastError;
+    throw new Error(&#x27;No se pudo localizar el elemento con ninguno de los selectores.&#x27;);
+}
+</code></pre><h3 id="16dc12ec-493c-807f-a793-ee4dc7cd271f" class="">2. Reintentos Automáticos</h3><p id="16dc12ec-493c-8013-acfc-dbccbc756924" class="">La función <code>retry</code> implementa una lógica de reintento con backoff exponencial. Esto significa que si un intento falla, espera un tiempo antes de reintentar, y el tiempo de espera aumenta exponencialmente con cada reintento. Esto es útil para manejar situaciones donde los elementos pueden no estar disponibles inmediatamente debido a problemas de sincronización o carga.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="16dc12ec-493c-807b-99d5-d34c285aa1f9" class="code"><code class="language-TypeScript" style="white-space:pre-wrap;word-break:break-all">private async retry(fn, retries = 3, delay = 1000) {
+    let attempt = 0;
+    while (attempt &lt; retries) {
+        try {
+            return await fn();
+        } catch (error) {
+            if (attempt === retries - 1) {
+                throw error;
+            }
+            const nextDelay = delay * Math.pow(2, attempt); // Backoff exponencial
+            console.log(`Intento ${attempt + 1} fallido. Reintentando en ${nextDelay} ms...`);
+            await new Promise(resolve =&gt; setTimeout(resolve, nextDelay)); // Espera con backoff
+            attempt++;
+        }
+    }
+}
+</code></pre><h3 id="16dc12ec-493c-805e-b895-e0fac6b8ba48" class="">3. Manejo de Excepciones</h3><p id="16dc12ec-493c-80f0-8a13-c26c4ba78c0f" class="">El método <code>tryClickButton</code> intenta hacer clic en un botón y maneja las excepciones. Si el botón no se encuentra, intenta buscar un localizador alternativo. Esto es otra forma de Self-Healing porque permite que la prueba continúe incluso si el primer intento de hacer clic falla.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="16dc12ec-493c-808e-8f34-dafaee7df015" class="code"><code class="language-TypeScript" style="white-space:pre-wrap;word-break:break-all">private async tryClickButton(btn) {
+    try {
+        // Espera hasta que el botón sea visible
+        await btn.waitForDisplayed({ timeout: 5000 });
+        await btn.click(); // Realiza el clic
+    } catch (error) {
+        // Si el botón no se encuentra, intentamos buscar un localizador alternativo
+        console.log(`Fallo al encontrar el botón con el localizador inicial. Intentando con un alternativo.`);
+        await this.retry(() =&gt; btn.waitForDisplayed({ timeout: 5000 }));
+        await btn.click();
+    }
+}
+</code></pre><h3 id="16dc12ec-493c-80c3-b152-e45b934aa1c1" class="">4. Uso de Múltiples Estrategias en los Botones</h3><p id="16dc12ec-493c-8004-9b53-c0a3b6e6f81d" class="">Los botones <code>btnNumero</code>, <code>btnMas</code> y <code>btnIgual</code> utilizan múltiples estrategias de localización, lo que aumenta la robustez de la prueba.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="16dc12ec-493c-803b-83be-cf8c694f5c77" class="code"><code class="language-TypeScript" style="white-space:pre-wrap;word-break:break-all">get btnNumero() {
+    return (numeroDeseado: string) =&gt; this.getElementWithBackupSelectors([
+        `~${numeroDeseado}`, // Usar ~ correctamente sin las plantillas de cadena
+        `android=new UiSelector().description(&quot;${numeroDeseado}&quot;)`, // Usar descripción como backup
+    ]);
+}
+
+get btnMas() {
+    return this.getElementWithBackupSelectors([
+        &#x27;~máss&#x27;,
+        &#x27;android=new UiSelector().description(&quot;sumar&quot;)&#x27;,
+        &#x27;android=new UiSelector().resourceId(&quot;com.google.android.calculator:id/btn_plus&quot;)&#x27;,
+        &#x27;~más&#x27;
+    ]);
+}
+
+get btnIgual() {
+    return this.getElementWithBackupSelectors([
+        &#x27;~igual a&#x27;,
+        &#x27;android=new UiSelector().description(&quot;igual&quot;)&#x27;,
+        &#x27;android=new UiSelector().resourceId(&quot;com.google.android.calculator:id/btn_eq&quot;)&#x27;,
+    ]);
+}
+</code></pre><p id="16dc12ec-493c-804d-896f-c36eec87fa29" class="">
+</p><p id="16dc12ec-493c-8045-9e0a-f47d5a577518" class="">Nota: Sí bien el código implementa Self-Healing de manera efectiva mediante el uso de múltiples estrategias de localización, reintentos automáticos con backoff exponencial y manejo de excepciones. Esto hace que la automatización sea más robusta y capaz de recuperarse de fallos temporales. Es un ejemplo que está implementado localmente y no implementa la lógica que conecta con el modelo LLM-RAG.</p><p id="16dc12ec-493c-80a9-859c-ec3ea9cf0a3d" class="">
+</p><hr id="16dc12ec-493c-8099-88ce-f82ac33cc911"/><h3 id="16dc12ec-493c-8097-b3c9-ebbe8390b0a2" class="">Conclusión</h3><p id="16dc12ec-493c-8023-a347-e103d93cc4db" class="">El uso de Inteligencia Artificial y técnicas de Self-Healing en la automatización del testing funcional optimiza recursos, mejora la resiliencia y reduce la dependencia de actualizaciones manuales. Este enfoque permite adaptarse a cambios en las aplicaciones y eleva la calidad de las pruebas, garantizando además la trazabilidad mediante el registro histórico de información. En un entorno ágil, estas herramientas representan un paso clave hacia sistemas de pruebas más eficientes e inteligentes.</p><p id="16dc12ec-493c-8059-b287-d24c9193cb2e" class="">
+</p><hr id="16dc12ec-493c-80a2-98ab-fd5044431c62"/><h3 id="16dc12ec-493c-80ef-84eb-ea101bdbd45d" class=""><strong>Bibliografía</strong></h3><p id="16dc12ec-493c-80c8-8e10-e02c142123ac" class="">¿Qué es la automatización inteligente? (2023, mayo 16). Ibm.com.</p><p id="16dc12ec-493c-80af-9ceb-c9c58761c023" class=""><a href="https://www.ibm.com/es-es/topics/intelligent-automation">https://www.ibm.com/es-es/topics/intelligent-automation</a></p><p id="16dc12ec-493c-80c4-ab01-db32e3af27db" class="">¿Qué es la Inteligencia Artificial (IA)? (2024, junio 14). Ibm.com.</p><p id="16dc12ec-493c-80c9-a73d-fd1e18f0db3a" class=""><a href="https://www.ibm.com/mx-es/topics/artificial-intelligence">https://www.ibm.com/mx-es/topics/artificial-intelligence</a></p><p id="16dc12ec-493c-80c2-bd39-e7d0e2cdaffa" class="">Rojas, G. I. (2023, febrero 9). Inteligencia Artificial al servicio del Testing.</p><p id="16dc12ec-493c-800f-b88c-c860b04a3071" class="">Linkedin.com.</p><p id="16dc12ec-493c-809e-b4a8-fec981bfba4d" class=""><a href="https://www.linkedin.com/pulse/inteligencia-artificial-al-servicio-del-test">https://www.linkedin.com/pulse/inteligencia-artificial-al-servicio-del-test</a></p><p id="16dc12ec-493c-80fb-b038-e82080a4a492" class="">ing-gustavo-inzunza-rojas/</p><p id="16dc12ec-493c-80be-8ce2-d58dfbf077fd" class="">Schmidt, R. (2023, junio 8). El papel de la IA en las pruebas de software.</p><p id="16dc12ec-493c-8055-8d42-eab39deef614" class="">Appmaster.io; AppMaster.</p><p id="16dc12ec-493c-80a5-84c8-df47b04cbc35" class=""><a href="https://appmaster.io/es/blog/ai-en-pruebas-de-software">https://appmaster.io/es/blog/ai-en-pruebas-de-software</a></p><p id="16dc12ec-493c-8048-bed4-df516c5dbf60" class="">Testing automatizado de software basado en IA. (s/f). CaixaBank Tech.</p><p id="16dc12ec-493c-80fc-9aa3-d523252a775f" class="">Recuperado el 12 de noviembre de 2024, de</p><p id="16dc12ec-493c-80aa-916c-c7a4ad205735" class=""><a href="https://www.caixabanktech.com/es/blogs/testing-automatizado-de-software-basado-en-ia/">https://www.caixabanktech.com/es/blogs/testing-automatizado-de-software-basado-en-ia/</a></p><p id="16dc12ec-493c-80aa-a9fa-d864814076ad" class="">(S/f). Amazon.com. Recuperado el 12 de noviembre de 2024, de</p><p id="16dc12ec-493c-80c5-888d-f6ffb588665a" class=""><a href="https://aws.amazon.com/es/what-is/intelligent-automation/">https://aws.amazon.com/es/what-is/intelligent-automation/</a></p><p id="16dc12ec-493c-802a-8b67-cc905cefeabd" class=""><em>Introduction</em>. (s/f). Continue.dev. Recuperado el 18 de noviembre de 2024, de <a href="https://docs.continue.dev/">https://docs.continue.dev/</a></p><p id="16dc12ec-493c-8033-ba31-d42aba0afc27" class=""><em>Bienvenue to Mistral AI documentation</em>. (s/f). Mistral.Ai. Recuperado el 18 de noviembre de 2024, de <a href="https://docs.mistral.ai/">https://docs.mistral.ai/</a></p><p id="16dc12ec-493c-80ed-803f-e42a14117d08" class=""><em>library</em>. (n.d.). Ollama.com. Retrieved November 18, 2024, from <a href="https://ollama.com/library">https://ollama.com/library</a></p><p id="16dc12ec-493c-80b7-a596-ed2aab12c6f5" class=""><em>llama3.1</em>. (s/f). Ollama.com. Recuperado el 19 de noviembre de 2024, de <a href="https://ollama.com/library/llama3.1">https://ollama.com/library/llama3.1</a></p><p id="16dc12ec-493c-80a0-a41e-e707d49ddf40" class=""><em>Visual testing</em>. (n.d.). Webdriver.Io. Retrieved November 18, 2024, from <a href="https://webdriver.io/docs/visual-testing/">https://webdriver.io/docs/visual-testing/</a></p><p id="16dc12ec-493c-8027-8b8d-ccd5b91448d5" class=""><em>OCR testing</em>. (s/f). Webdriver.Io. Recuperado el 19 de noviembre de 2024, de <a href="https://webdriver.io/docs/ocr-testing/ocr-testing/">https://webdriver.io/docs/ocr-testing/ocr-testing/</a></p><p id="16dc12ec-493c-8016-857f-cb92d496fe39" class=""><em>Applitools eyes documentation</em>. (s/f). Applitools. Recuperado el 1 de diciembre de 2024, de <a href="https://applitools.com/docs/index.html">https://applitools.com/docs/index.html</a></p><p id="16dc12ec-493c-8023-ad17-c92f183a99e2" class="">(S/f). Amazon.com. Recuperado el 2 de diciembre de 2024, de <a href="https://aws.amazon.com/what-is/retrieval-augmented-generation/">https://aws.amazon.com/what-is/retrieval-augmented-generation/</a></p><p id="16dc12ec-493c-8027-a2ea-c150d13a3ea3" class="">Cómo utilizar tus propios documentos con LLMs - Conceptos fundamentales de sistemas RAG</p><ul id="16dc12ec-493c-803a-a11f-fb3cd74e4340" class="bulleted-list"><li style="list-style-type:disc">YouTube</li></ul><p id="16dc12ec-493c-80ac-947f-e7360cba90fe" class="">. (s/f). Youtu.Be. Recuperado el 3 de diciembre de 2024, de</p><p id="16dc12ec-493c-8021-994e-cb1c14705d94" class=""><a href="https://youtu.be/l2G8-iQYfoA?si=1mizdHgszDv6kn2F">https://youtu.be/l2G8-iQYfoA?si=1mizdHgszDv6kn2F</a></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
